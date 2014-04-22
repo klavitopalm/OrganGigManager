@@ -22,6 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.organistendienstmanager.OverviewActivity"
+            android:label="@string/activity_start_name"
+            android:parentActivityName="com.example.organgigmanager.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.organgigmanager.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
