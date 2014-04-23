@@ -6,21 +6,18 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.example.organistendienstmanager.R;
 
 /**
- * Fragment to show the navigation overview.
+ * Fragment to show the edit gig input mask. Serves as new gig input mask when there is no gig to edit.
  * 
  */
-public class OverviewFragment extends Fragment {
-	private static final String TAG = "OverviewFragment";
+public class EditGigFragment extends Fragment {
+	private static final String TAG = "EditGigFragment";
 
 	private OnMainNavigationItemClicked mParentOnMainNavigationItemClicked;
-	private Button mNewGigButton, mOverviewButton, mSettingsButton;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -54,40 +51,8 @@ public class OverviewFragment extends Fragment {
 		Log.v(TAG, "onCreateView: savedInstanceState " + (savedInstanceState == null ? "==" : "!=") + " null");
 
 		// Inflate the fragment main view in the container provided
-		View v = inflater.inflate(R.layout.fragment_overview, container, false);
+		View v = inflater.inflate(R.layout.fragment_edit_gig, container, false);
 
-		mNewGigButton = (Button) v.findViewById(R.id.new_gig_button);
-		mNewGigButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Inform our parent listener that a button was clicked
-				if (mParentOnMainNavigationItemClicked != null) {
-					mParentOnMainNavigationItemClicked.navigationItemClicked(MainNavigtationItems.EDIT_GIGS);
-				}
-			}
-		});
-
-		mOverviewButton = (Button) v.findViewById(R.id.gig_overview_button);
-		mOverviewButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Inform our parent listener that a button was clicked
-				if (mParentOnMainNavigationItemClicked != null) {
-					mParentOnMainNavigationItemClicked.navigationItemClicked(MainNavigtationItems.GIG_OVERVIEW);
-				}
-			}
-		});
-
-		mSettingsButton = (Button) v.findViewById(R.id.settings_button);
-		mSettingsButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Inform our parent listener that a button was clicked
-				if (mParentOnMainNavigationItemClicked != null) {
-					mParentOnMainNavigationItemClicked.navigationItemClicked(MainNavigtationItems.SETTINGS);
-				}
-			}
-		});
 
 		return v;
 	}

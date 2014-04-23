@@ -12,7 +12,8 @@ import com.example.organistendienstmanager.R;
 public class MainActivity extends FragmentActivity implements OnMainNavigationItemClicked {
 	private static final String TAG = "MainActivity";
 
-	private ViewGroup mMainSelectedLayout;
+	private ViewGroup mMainSelectedLayout, mChosenNavigationItemLayout;
+	private boolean doesSecondFragmentExistInView = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,25 +30,29 @@ public class MainActivity extends FragmentActivity implements OnMainNavigationIt
 		// If this is the first creation of the activity, add fragments to it
 		else {
 
-			// If our layout has a container for the main_view fragment,
-			// add it
+			// If our layout has a container for the main_view fragment, add it
 			mMainSelectedLayout = (ViewGroup) findViewById(R.id.activity_main_view_start_container);
 			if (mMainSelectedLayout != null) {
 
-				Log.i(TAG, "onCreate: adding activity_main_view_start_container to MainActivity");
-
-				// Add activity_main_view_start_container fragment to the activity's container layout
-				OverviewFragment overviewFragment = new OverviewFragment();
-				FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-				fragmentTransaction.replace(mMainSelectedLayout.getId(), overviewFragment,
-						OverviewFragment.class.getName());
-
-				// Commit the transaction
+				FragmentTransaction fragmentTransaction = addActivityMainViewStartContainerFragmentToContainerLayout();
 				fragmentTransaction.commit();
 			}
 
-		}
+			mChosenNavigationItemLayout = (ViewGroup) findViewById(R.id.activity_main_selected_item_container);
+			if (mChosenNavigationItemLayout != null) {
+				Log.i(TAG, "onCreate: found second fragment");
+				doesSecondFragmentExistInView = true;
+			}
 
+		}
+	}
+
+	private FragmentTransaction addActivityMainViewStartContainerFragmentToContainerLayout() {
+		OverviewFragment overviewFragment = new OverviewFragment();
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.replace(mMainSelectedLayout.getId(), overviewFragment,
+				OverviewFragment.class.getName());
+		return fragmentTransaction;
 	}
 
 	@Override
@@ -90,14 +95,29 @@ public class MainActivity extends FragmentActivity implements OnMainNavigationIt
 	public void navigationItemClicked(MainNavigtationItems clickedItem) {
 		Log.d(TAG, "navigationItemClicked: clickedItem = " + clickedItem);
 
-		//		FragmentManager fragmentManager = getSupportFragmentManager();
-		//		ImageRotatorFragment imageRotatorFragment = (ImageRotatorFragment) fragmentManager.findFragmentByTag(
-		//				ImageRotatorFragment.class.getName());
-		//
-		//		// If the main_selected fragment is in the current layout, update it
-		//		if (imageRotatorFragment != null) {
-		//			imageRotatorFragment.setImageSelected(imageItem, position);
-		//		}
+		ViewGroup viewToDisplayClickedItem = mMainSelectedLayout;
+		if(doesSecondFragmentExistInView) {
+			viewToDisplayClickedItem = mChosenNavigationItemLayout;
+		}
+
+		if(clickedItem == MainNavigtationItems.EDIT_GIGS) {
+			// Add activity_main_selected_item_container fragment to the activity's container layout
+			EditGigFragment editGigFragment = new EditGigFragment();
+			FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+			fragmentTransaction.replace(viewToDisplayClickedItem.getId(), editGigFragment,
+					EditGigFragment.class.getName());
+
+			addToBackStackIfOnlyOneFragmentIsDisplayed(fragmentTransaction);
+
+			// Commit the transaction
+			fragmentTransaction.commit();
+		}
+	}
+
+	private void addToBackStackIfOnlyOneFragmentIsDisplayed(FragmentTransaction fragmentTransaction) {
+		if(!doesSecondFragmentExistInView) {
+			fragmentTransaction.addToBackStack("new_gig");
+		}
 	}
 
 }
