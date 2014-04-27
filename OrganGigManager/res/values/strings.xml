@@ -7,5 +7,10 @@
     <string name="activity_start_name">Auswahl</string>
     <string name="new_gig">Neuer Eintrag</string>
     <string name="gig_overview">Gig Übersicht</string>
+    <string name="gig_date">Datum</string>
+    <string name="gig_location">Ort</string>
+    <string name="gig_issue">Was</string>
+    <string name="gig_invoice_required">Rechnung benötigt</string>
+    <string name="gig_bill_met">Bereits bezahlt</string>
 
 </resources>
