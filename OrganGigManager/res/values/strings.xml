@@ -4,8 +4,8 @@
     <string name="app_name">OrganistenDienstManager</string>
     <string name="edit_gig">Eintrag editieren</string>
     <string name="settings">Einstellungen</string>
-    <string name="gig_overview">Übersicht</string>
     <string name="activity_start_name">Auswahl</string>
     <string name="new_gig">Neuer Eintrag</string>
+    <string name="gig_overview">Gig Übersicht</string>
 
 </resources>

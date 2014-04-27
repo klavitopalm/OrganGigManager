@@ -100,18 +100,30 @@ public class MainActivity extends FragmentActivity implements OnMainNavigationIt
 			viewToDisplayClickedItem = mChosenNavigationItemLayout;
 		}
 
-		if(clickedItem == MainNavigtationItems.EDIT_GIGS) {
-			// Add activity_main_selected_item_container fragment to the activity's container layout
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+		switch(clickedItem) {
+		case EDIT_GIGS:
 			EditGigFragment editGigFragment = new EditGigFragment();
-			FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 			fragmentTransaction.replace(viewToDisplayClickedItem.getId(), editGigFragment,
 					EditGigFragment.class.getName());
-
-			addToBackStackIfOnlyOneFragmentIsDisplayed(fragmentTransaction);
-
-			// Commit the transaction
-			fragmentTransaction.commit();
+			break;
+		case GIG_OVERVIEW:
+			GigOverviewFragment gigOverviewFragment = new GigOverviewFragment();
+			fragmentTransaction.replace(viewToDisplayClickedItem.getId(), gigOverviewFragment,
+					GigOverviewFragment.class.getName());
+			break;
+		case SETTINGS:
+			SettingsFragment settingsFragment = new SettingsFragment();
+			fragmentTransaction.replace(viewToDisplayClickedItem.getId(), settingsFragment,
+					SettingsFragment.class.getName());
+			break;
+		default:
+			Log.e(TAG, "unknown item clicked: " + clickedItem.name());
 		}
+
+		addToBackStackIfOnlyOneFragmentIsDisplayed(fragmentTransaction);
+		fragmentTransaction.commit();
 	}
 
 	private void addToBackStackIfOnlyOneFragmentIsDisplayed(FragmentTransaction fragmentTransaction) {
