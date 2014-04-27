@@ -48,10 +48,10 @@ public class MainActivity extends FragmentActivity implements OnMainNavigationIt
 	}
 
 	private FragmentTransaction addActivityMainViewStartContainerFragmentToContainerLayout() {
-		OverviewFragment overviewFragment = new OverviewFragment();
+		NavigationOverviewFragment overviewFragment = new NavigationOverviewFragment();
 		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(mMainSelectedLayout.getId(), overviewFragment,
-				OverviewFragment.class.getName());
+				NavigationOverviewFragment.class.getName());
 		return fragmentTransaction;
 	}
 

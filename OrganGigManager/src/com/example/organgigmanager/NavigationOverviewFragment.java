@@ -16,8 +16,8 @@ import com.example.organistendienstmanager.R;
  * Fragment to show the navigation overview.
  * 
  */
-public class OverviewFragment extends Fragment {
-	private static final String TAG = "OverviewFragment";
+public class NavigationOverviewFragment extends Fragment {
+	private static final String TAG = "NavigationOverviewFragment";
 
 	private OnMainNavigationItemClicked mParentOnMainNavigationItemClicked;
 	private Button mNewGigButton, mOverviewButton, mSettingsButton;
