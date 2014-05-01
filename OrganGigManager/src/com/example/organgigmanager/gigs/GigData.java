@@ -3,7 +3,6 @@
  */
 package com.example.organgigmanager.gigs;
 
-import java.util.Date;
 
 /**
  * @author klavi
@@ -11,8 +10,8 @@ import java.util.Date;
  */
 public interface GigData {
 
-	Date getDate();
-	void setDate(Date date);
+	long getDate();
+	void setDate(long date);
 
 	String getLocation();
 	void setLocation(String location);

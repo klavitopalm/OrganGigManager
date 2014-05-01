@@ -1,8 +1,6 @@
 package com.example.organgigmanager;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -14,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.DatePicker.OnDateChangedListener;
 import android.widget.EditText;
@@ -36,6 +35,8 @@ public class EditGigFragment extends Fragment {
 	private EditText mIssueContent;
 	private CheckBox mInvoiceRequiredContent;
 	private CheckBox mBillMetContent;
+
+	private final long MILLISECONDS_PER_SECOND = 1000L;
 
 	private final GigData gig = new GeneralGigData();
 
@@ -76,33 +77,49 @@ public class EditGigFragment extends Fragment {
 		// Inflate the fragment main view in the container provided
 		View v = inflater.inflate(R.layout.fragment_edit_gig, container, false);
 
-
-		mDateContent = (DatePicker) v.findViewById(R.id.gig_date_content);
-		if(mDateContent != null) {
-			mDateContent.init(2014, 3, 15, new OnDateChangedListener() {
-
-				@Override
-				public void onDateChanged(DatePicker view, int year, int monthOfYear,
-						int dayOfMonth) {
-
-					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-					Date date = null;
-					try {
-						String parseString = String.valueOf(dayOfMonth) + "/" + String.valueOf(monthOfYear) + "/" + String.valueOf(year);
-						date = sdf.parse(parseString);
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-					gig.setDate(date);
-				}
-			});
-		}
+		setupDateContent(v);
 
 		mLocationContent = (Spinner) v.findViewById(R.id.gig_location_content);
-		if(mLocationContent == null) {
+		if(mLocationContent != null) {
 			Log.e(TAG, "No locationspinner found");
 		}
 
+		setupIssueContent(v);
+		setupInvoiceRequiredContent(v);
+		setupBillMetcontent(v);
+
+		return v;
+	}
+
+	private void setupBillMetcontent(View v) {
+		mBillMetContent = (CheckBox) v.findViewById(R.id.gig_bill_met_content);
+		if(mBillMetContent != null) {
+			mBillMetContent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					gig.setBillMet(isChecked);
+					Log.v(TAG, "BillMet set:" + isChecked);
+				}
+			});
+		}
+	}
+
+	private void setupInvoiceRequiredContent(View v) {
+		mInvoiceRequiredContent = (CheckBox) v.findViewById(R.id.gig_invoice_required_content);
+		if(mInvoiceRequiredContent != null) {
+			mInvoiceRequiredContent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					gig.setInvoiceRequired(isChecked);
+					Log.v(TAG, "Issue set:"+isChecked);
+				}
+			});
+		}
+	}
+
+	private void setupIssueContent(View v) {
 		mIssueContent = (EditText) v.findViewById(R.id.gig_issue_content);
 		if(mIssueContent != null) {
 			mIssueContent.addTextChangedListener(new TextWatcher() {
@@ -121,22 +138,30 @@ public class EditGigFragment extends Fragment {
 				@Override
 				public void afterTextChanged(Editable s) {
 					gig.setIssue(s.toString());
-
+					Log.v(TAG, "Issue set: "+ gig.getIssue());
 				}
 			});
 		}
+	}
 
-		mInvoiceRequiredContent = (CheckBox) v.findViewById(R.id.gig_invoice_required_content);
-		if(mInvoiceRequiredContent != null) {
+	private void setupDateContent(View v) {
+		Calendar now = Calendar.getInstance();
+		now.setTimeInMillis(System.currentTimeMillis());
+		mDateContent = (DatePicker) v.findViewById(R.id.gig_date_content);
+		if(mDateContent != null) {
+			mDateContent.init(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH), new OnDateChangedListener() {
 
+				@Override
+				public void onDateChanged(DatePicker view, int year, int monthOfYear,
+						int dayOfMonth) {
+
+					Calendar date = Calendar.getInstance();
+					date.set(year, monthOfYear, dayOfMonth);
+					gig.setDate(date.getTimeInMillis() / MILLISECONDS_PER_SECOND);
+					Log.v(TAG, "Date in s: "+ gig.getDate());
+				}
+			});
 		}
-
-		mBillMetContent = (CheckBox) v.findViewById(R.id.gig_bill_met_content);
-		if(mBillMetContent == null) {
-			Log.e(TAG, "No bill checkbox found");
-		}
-
-		return v;
 	}
 
 

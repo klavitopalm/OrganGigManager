@@ -1,21 +1,20 @@
 package com.example.organgigmanager.gigs;
 
-import java.util.Date;
 
 public class GeneralGigData implements GigData {
-	private Date date = new Date(System.currentTimeMillis());
+	private long date = System.currentTimeMillis();
 	private String location;
 	private String issue;
 	private boolean isBillMet;
 	private boolean isInvoiceRequired;
 
 	@Override
-	public Date getDate() {
+	public long getDate() {
 		return date;
 	}
 
 	@Override
-	public void setDate(Date date) {
+	public void setDate(long date) {
 		this.date = date;
 	}
 
