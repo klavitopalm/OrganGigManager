@@ -1,6 +1,8 @@
 package com.example.organgigmanager;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -78,17 +81,28 @@ public class EditGigFragment extends Fragment {
 		View v = inflater.inflate(R.layout.fragment_edit_gig, container, false);
 
 		setupDateContent(v);
-
-		mLocationContent = (Spinner) v.findViewById(R.id.gig_location_content);
-		if(mLocationContent != null) {
-			Log.e(TAG, "No locationspinner found");
-		}
-
+		setupLocationContent(v);
 		setupIssueContent(v);
 		setupInvoiceRequiredContent(v);
 		setupBillMetcontent(v);
 
 		return v;
+	}
+
+	private void setupLocationContent(View v) {
+		mLocationContent = (Spinner) v.findViewById(R.id.gig_location_content);
+
+		List<String> locations = new ArrayList<String>();
+		locations.add("Wilhermsdorf");
+		locations.add("Markt Erlbach");
+		locations.add("Langenzenn");
+		if(mLocationContent != null) {
+			ArrayAdapter<String> locationContentAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, locations);
+			locationContentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			mLocationContent.setAdapter(locationContentAdapter);
+			Log.v(TAG, "mLocationContent chosen item:" + "");
+			//TODO: click-handler noch machen
+		}
 	}
 
 	private void setupBillMetcontent(View v) {
