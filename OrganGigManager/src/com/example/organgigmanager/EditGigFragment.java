@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -100,8 +102,25 @@ public class EditGigFragment extends Fragment {
 			ArrayAdapter<String> locationContentAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, locations);
 			locationContentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			mLocationContent.setAdapter(locationContentAdapter);
-			Log.v(TAG, "mLocationContent chosen item:" + "");
-			//TODO: click-handler noch machen
+
+
+			mLocationContent.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view,
+						int pos, long id) {
+
+					String selectedItem = parent.getItemAtPosition(pos).toString();
+					gig.setLocation(selectedItem);
+					Log.v(TAG, "mLocationContent chosen item:" + selectedItem);
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+					// nothing todo
+
+				}
+			});
 		}
 	}
 
