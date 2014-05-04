@@ -97,7 +97,7 @@ public class EditGigFragment extends Fragment {
 		locations.add("Markt Erlbach");
 		locations.add("Langenzenn");
 		if(mLocationContent != null) {
-			ArrayAdapter<String> locationContentAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, locations);
+			ArrayAdapter<String> locationContentAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, locations);
 			locationContentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			mLocationContent.setAdapter(locationContentAdapter);
 			Log.v(TAG, "mLocationContent chosen item:" + "");
